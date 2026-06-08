@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order — DEN TOPUP</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .order-page { min-height: 100vh; padding: 100px 24px 60px; max-width: 680px; margin: 0 auto; }
+    .order-back { display: inline-flex; align-items: center; gap: 8px; color: var(--pink); font-size: 0.9rem; font-weight: 600; margin-bottom: 32px; transition: gap 0.2s; }
+    .order-back:hover { gap: 12px; }
+    .order-header { margin-bottom: 32px; }
+    .order-header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+    .order-header p { color: var(--text-muted); font-size: 0.9rem; }
+    .order-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 24px; }
+    .order-card h2 { font-size: 1rem; font-weight: 700; color: var(--pink-light); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #ccc; margin-bottom: 8px; }
+    .form-group input, .form-group select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      color: white;
+      font-family: var(--font);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--pink); }
+    .form-group select option { background: #1e1e2e; }
+    .packages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    .pkg-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .pkg-btn:hover { border-color: var(--pink); background: rgba(255,107,181,0.08); transform: scale(1.03); }
+    .pkg-btn.selected { border-color: var(--pink); background: rgba(255,107,181,0.15); }
+    .pkg-btn .pkg-amount { font-size: 1rem; font-weight: 800; color: var(--white); }
+    .pkg-btn .pkg-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+    .pkg-btn .pkg-price { font-size: 0.82rem; font-weight: 700; color: var(--pink); margin-top: 6px; }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(255,107,181,0.35);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    .order-note { font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .success-box { display: none; background: rgba(37,211,102,0.12); border: 1px solid rgba(37,211,102,0.3); border-radius: var(--radius); padding: 24px; text-align: center; margin-top: 20px; }
+    .success-box .success-icon { font-size: 2.5rem; }
+    .success-box h3 { font-size: 1.1rem; font-weight: 700; margin: 10px 0 6px; color: #25d366; }
+    .success-box p { font-size: 0.85rem; color: #aaa; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-den">DEN</span><span class="logo-topup">TOPUP</span>
+        <span class="logo-star">✦</span>
+      </a>
+      <div class="nav-socials" style="margin-left:auto">
+        <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" class="btn-social discord">
+          <i class="fa-brands fa-discord"></i> Discord
+        </a>
+        <a href="https://chat.whatsapp.com/YOUR_WHATSAPP_INVITE" target="_blank" class="btn-social whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FLOATING SOCIALS -->
+  <div class="floating-socials">
+    <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" class="float-btn float-discord" title="Discord">
+      <i class="fa-brands fa-discord"></i><span>Discord</span>
+    </a>
+    <a href="https://chat.whatsapp.com/YOUR_WHATSAPP_INVITE" target="_blank" class="float-btn float-whatsapp" title="WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span>
+    </a>
+  </div>
+
+  <div class="order-page">
+    <a href="index.html" class="order-back"><i class="fa-solid fa-arrow-left"></i> Back to Games</a>
+
+    <div class="order-header">
+      <h1 id="orderTitle">Top Up <span class="highlight">Game</span></h1>
+      <p>Fill in your details and choose a package below.</p>
+    </div>
+
+    <!-- GAME ID -->
+    <div class="order-card">
+      <h2><i class="fa-solid fa-gamepad"></i> Player Info</h2>
+      <div class="form-group">
+        <label for="userId">Game ID / User ID</label>
+        <input type="text" id="userId" placeholder="Enter your Game ID" />
+      </div>
+      <div class="form-group" id="serverGroup" style="display:none">
+        <label for="serverId">Server ID (if required)</label>
+        <input type="text" id="serverId" placeholder="e.g. 1234" />
+      </div>
+    </div>
+
+    <!-- PACKAGES -->
+    <div class="order-card">
+      <h2><i class="fa-solid fa-gem"></i> Choose Package</h2>
+      <div class="packages-grid" id="packagesGrid">
+        <!-- Packages injected by JS -->
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="order-card">
+      <h2><i class="fa-solid fa-credit-card"></i> Payment Method</h2>
+      <div class="form-group">
+        <label for="payMethod">Select Payment</label>
+        <select id="payMethod">
+          <option value="">-- Choose --</option>
+          <option>Bank Transfer (BCA)</option>
+          <option>Bank Transfer (Mandiri)</option>
+          <option>DANA</option>
+          <option>GoPay</option>
+          <option>OVO</option>
+          <option>ShopeePay</option>
+          <option>QRIS</option>
+          <option>Indomaret / Alfamart</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="whatsappNum">WhatsApp Number (for order confirmation)</label>
+        <input type="text" id="whatsappNum" placeholder="+62 812 xxxx xxxx" />
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="submitOrder()">
+      <i class="fa-solid fa-bolt"></i> Submit Order
+    </button>
+    <p class="order-note">After submitting, our team will contact you on WhatsApp to confirm your order. Orders are usually processed within 1–5 minutes. Need help? Join our <a href="https://discord.gg/YOUR_DISCORD_INVITE" target="_blank" style="color:var(--pink)">Discord</a> or <a href="https://chat.whatsapp.com/YOUR_WHATSAPP_INVITE" target="_blank" style="color:#25d366">WhatsApp</a>.</p>
+
+    <div class="success-box" id="successBox">
+      <div class="success-icon">✅</div>
+      <h3>Order Submitted!</h3>
+      <p>Thank you! We'll contact you on WhatsApp shortly to process your top-up.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const gamePackages = {
+      'mobile-legends': {
+        name: 'Mobile Legends',
+        currency: 'Diamonds',
+        server: true,
+        packages: [
+          { amount: '5 💎', label: 'Diamonds', price: 'Rp 1.500' },
+          { amount: '11 💎', label: 'Diamonds', price: 'Rp 3.000' },
+          { amount: '22 💎', label: 'Diamonds', price: 'Rp 6.000' },
+          { amount: '56 💎', label: 'Diamonds', price: 'Rp 14.000' },
+          { amount: '86 💎', label: 'Diamonds', price: 'Rp 21.000' },
+          { amount: '172 💎', label: 'Diamonds', price: 'Rp 42.000' },
+          { amount: '257 💎', label: 'Diamonds', price: 'Rp 63.000' },
+          { amount: '343 💎', label: 'Diamonds', price: 'Rp 84.000' },
+          { amount: '514 💎', label: 'Diamonds', price: 'Rp 125.000' },
+          { amount: '706 💎', label: 'Diamonds', price: 'Rp 172.000' },
+          { amount: 'Starlight ⭐', label: 'Member', price: 'Rp 49.000' },
+        ]
+      },
+      'codm': {
+        name: 'Call of Duty Mobile',
+        currency: 'CP',
+        server: false,
+        packages: [
+          { amount: '80 CP', label: 'COD Points', price: 'Rp 14.000' },
+          { amount: '400 CP', label: 'COD Points', price: 'Rp 65.000' },
+          { amount: '880 CP', label: 'COD Points', price: 'Rp 130.000' },
+          { amount: '2000 CP', label: 'COD Points', price: 'Rp 280.000' },
+          { amount: '4000 CP', label: 'COD Points', price: 'Rp 550.000' },
+          { amount: 'Battle Pass 🎫', label: 'Season Pass', price: 'Rp 79.000' },
+        ]
+      },
+      'genshin-impact': {
+        name: 'Genshin Impact',
+        currency: 'Genesis Crystals',
+        server: false,
+        packages: [
+          { amount: '60 💎', label: 'Genesis Crystals', price: 'Rp 14.000' },
+          { amount: '300 💎', label: 'Genesis Crystals', price: 'Rp 65.000' },
+          { amount: '980 💎', label: 'Genesis Crystals', price: 'Rp 180.000' },
+          { amount: '1980 💎', label: 'Genesis Crystals', price: 'Rp 350.000' },
+          { amount: '3280 💎', label: 'Genesis Crystals', price: 'Rp 560.000' },
+          { amount: 'Welkin Moon 🌙', label: '30 Days', price: 'Rp 75.000' },
+        ]
+      },
+      'free-fire': {
+        name: 'Free Fire',
+        currency: 'Diamonds',
+        server: false,
+        packages: [
+          { amount: '70 💎', label: 'Diamonds', price: 'Rp 14.000' },
+          { amount: '140 💎', label: 'Diamonds', price: 'Rp 27.000' },
+          { amount: '355 💎', label: 'Diamonds', price: 'Rp 65.000' },
+          { amount: '720 💎', label: 'Diamonds', price: 'Rp 130.000' },
+          { amount: '1450 💎', label: 'Diamonds', price: 'Rp 258.000' },
+          { amount: '2180 💎', label: 'Diamonds', price: 'Rp 385.000' },
+          { amount: 'Elite Pass 🎫', label: 'Season Pass', price: 'Rp 79.000' },
+        ]
+      },
+      'pixel-worlds': {
+        name: 'Pixel Worlds',
+        currency: 'Gems',
+        server: false,
+        packages: [
+          { amount: '200 💎', label: 'Gems', price: 'Rp 15.000' },
+          { amount: '500 💎', label: 'Gems', price: 'Rp 35.000' },
+          { amount: '1200 💎', label: 'Gems', price: 'Rp 80.000' },
+          { amount: '2500 💎', label: 'Gems', price: 'Rp 160.000' },
+          { amount: '5000 💎', label: 'Gems', price: 'Rp 300.000' },
+        ]
+      },
+      'growtopia': {
+        name: 'Growtopia',
+        currency: 'Growtokens',
+        server: false,
+        packages: [
+          { amount: '200 🪙', label: 'Growtokens', price: 'Rp 15.000' },
+          { amount: '500 🪙', label: 'Growtokens', price: 'Rp 35.000' },
+          { amount: '1000 🪙', label: 'Growtokens', price: 'Rp 65.000' },
+          { amount: '2000 🪙', label: 'Growtokens', price: 'Rp 125.000' },
+          { amount: '5000 🪙', label: 'Growtokens', price: 'Rp 300.000' },
+        ]
+      },
+      'bloodstrike': {
+        name: 'BloodStrike',
+        currency: 'Diamonds',
+        server: false,
+        packages: [
+          { amount: '60 💎', label: 'Diamonds', price: 'Rp 12.000' },
+          { amount: '300 💎', label: 'Diamonds', price: 'Rp 55.000' },
+          { amount: '980 💎', label: 'Diamonds', price: 'Rp 170.000' },
+          { amount: '1980 💎', label: 'Diamonds', price: 'Rp 330.000' },
+          { amount: 'Battle Pass 🎫', label: 'Season Pass', price: 'Rp 69.000' },
+        ]
+      },
+      'valorant': {
+        name: 'Valorant',
+        currency: 'VP',
+        server: false,
+        packages: [
+          { amount: '475 VP', label: 'Valorant Points', price: 'Rp 55.000' },
+          { amount: '1000 VP', label: 'Valorant Points', price: 'Rp 110.000' },
+          { amount: '2050 VP', label: 'Valorant Points', price: 'Rp 215.000' },
+          { amount: '3650 VP', label: 'Valorant Points', price: 'Rp 375.000' },
+          { amount: '5350 VP', label: 'Valorant Points', price: 'Rp 540.000' },
+        ]
+      },
+      'pubg-mobile': {
+        name: 'PUBG Mobile',
+        currency: 'UC',
+        server: false,
+        packages: [
+          { amount: '60 UC', label: 'Unknown Cash', price: 'Rp 14.000' },
+          { amount: '325 UC', label: 'Unknown Cash', price: 'Rp 65.000' },
+          { amount: '660 UC', label: 'Unknown Cash', price: 'Rp 130.000' },
+          { amount: '1800 UC', label: 'Unknown Cash', price: 'Rp 350.000' },
+          { amount: '3850 UC', label: 'Unknown Cash', price: 'Rp 700.000' },
+          { amount: 'Royale Pass 👑', label: 'Season Pass', price: 'Rp 79.000' },
+        ]
+      },
+      'honkai-star-rail': {
+        name: 'Honkai: Star Rail',
+        currency: 'Oneiric Shards',
+        server: false,
+        packages: [
+          { amount: '60 ✨', label: 'Oneiric Shards', price: 'Rp 14.000' },
+          { amount: '300 ✨', label: 'Oneiric Shards', price: 'Rp 65.000' },
+          { amount: '980 ✨', label: 'Oneiric Shards', price: 'Rp 180.000' },
+          { amount: '1980 ✨', label: 'Oneiric Shards', price: 'Rp 350.000' },
+          { amount: 'Express Pass 🚄', label: '30 Days', price: 'Rp 75.000' },
+        ]
+      },
+      'wild-rift': {
+        name: 'League of Legends: Wild Rift',
+        currency: 'Wild Cores',
+        server: false,
+        packages: [
+          { amount: '125 🔷', label: 'Wild Cores', price: 'Rp 14.000' },
+          { amount: '706 🔷', label: 'Wild Cores', price: 'Rp 75.000' },
+          { amount: '1625 🔷', label: 'Wild Cores', price: 'Rp 170.000' },
+          { amount: '3250 🔷', label: 'Wild Cores', price: 'Rp 335.000' },
+          { amount: '7200 🔷', label: 'Wild Cores', price: 'Rp 720.000' },
+        ]
+      },
+      'clash-of-clans': {
+        name: 'Clash of Clans',
+        currency: 'Gems',
+        server: false,
+        packages: [
+          { amount: '80 💎', label: 'Gems', price: 'Rp 14.000' },
+          { amount: '500 💎', label: 'Gems', price: 'Rp 80.000' },
+          { amount: '1200 💎', label: 'Gems', price: 'Rp 170.000' },
+          { amount: '2500 💎', label: 'Gems', price: 'Rp 340.000' },
+          { amount: '6500 💎', label: 'Gems', price: 'Rp 840.000' },
+          { amount: 'Gold Pass 🥇', label: '30 Days', price: 'Rp 55.000' },
+        ]
+      },
+    };
+
+    // Load game from URL param
+    const params = new URLSearchParams(window.location.search);
+    const gameKey = params.get('game') || 'mobile-legends';
+    const game = gamePackages[gameKey] || gamePackages['mobile-legends'];
+
+    // Set title
+    document.getElementById('orderTitle').innerHTML =
+      `Top Up <span class="highlight">${game.name}</span>`;
+    document.title = `Order ${game.name} — DEN TOPUP`;
+
+    // Show server field if needed
+    if (game.server) {
+      document.getElementById('serverGroup').style.display = '';
+    }
+
+    // Render packages
+    const grid = document.getElementById('packagesGrid');
+    let selectedPkg = null;
+    game.packages.forEach((pkg, i) => {
+      const btn = document.createElement('div');
+      btn.className = 'pkg-btn';
+      btn.innerHTML = `<div class="pkg-amount">${pkg.amount}</div><div class="pkg-label">${pkg.label}</div><div class="pkg-price">${pkg.price}</div>`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pkg-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedPkg = pkg;
+      });
+      grid.appendChild(btn);
+    });
+
+    // Submit order
+    function submitOrder() {
+      const userId = document.getElementById('userId').value.trim();
+      const payMethod = document.getElementById('payMethod').value;
+      const whatsapp = document.getElementById('whatsappNum').value.trim();
+
+      if (!userId) { alert('Please enter your Game ID.'); return; }
+      if (!selectedPkg) { alert('Please choose a package.'); return; }
+      if (!payMethod) { alert('Please select a payment method.'); return; }
+      if (!whatsapp) { alert('Please enter your WhatsApp number.'); return; }
+
+      document.getElementById('successBox').style.display = 'block';
+      document.getElementById('successBox').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
