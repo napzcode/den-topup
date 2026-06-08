@@ -1,0 +1,64 @@
+// ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    const icon = hamburger.querySelector('i');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-xmark');
+  });
+
+  // Close menu when a link is clicked
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      const icon = hamburger.querySelector('i');
+      icon.classList.add('fa-bars');
+      icon.classList.remove('fa-xmark');
+    });
+  });
+}
+
+// ===== GAME SEARCH FILTER =====
+function filterGames() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('#gamesGrid .game-card');
+  cards.forEach(card => {
+    const name = card.getAttribute('data-name') || '';
+    card.style.display = name.includes(query) ? '' : 'none';
+  });
+}
+
+// ===== SCROLL ANIMATIONS =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.game-card, .step-card, .why-card, .contact-card').forEach(el => {
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+
+// Add CSS for fade-in animations dynamically
+const style = document.createElement('style');
+style.textContent = `
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+`;
+document.head.appendChild(style);
+
+// ===== NAVBAR SCROLL EFFECT =====
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 40) {
+    navbar.style.background = 'rgba(13,13,13,0.97)';
+  } else {
+    navbar.style.background = 'rgba(13,13,13,0.85)';
+  }
+});
